@@ -18,7 +18,7 @@ items = [
 
 describe GildedRose do
   describe 'capture textfixtures snapshots' do
-    it 'does equal texttest_fixture on day 50' do
+    it 'equals texttest_fixture on day 50' do
       gilded_rose = GildedRose.new items
       (0...50).each do |_day|
         gilded_rose.update_quality

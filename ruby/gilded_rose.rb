@@ -7,6 +7,16 @@ class GildedRose
     @items = items
   end
 
+  def update_quality
+    @items.each do |item|
+      next if handle_special_items(item)
+
+      item.quality = item.quality - 1 if above_min_quality(item)
+      item.sell_in = item.sell_in - 1
+      item.quality = item.quality - 1 if above_min_quality(item) && item.sell_in.negative?
+    end
+  end
+
   def handle_special_items(item)
     return true if item.name == 'Sulfuras, Hand of Ragnaros'
 
@@ -14,7 +24,16 @@ class GildedRose
 
     return backstage_passes_to_a_tafkal80etc_concert(item) if item.name == 'Backstage passes to a TAFKAL80ETC concert'
 
+    return conjured_mana_cake(item) if item.name == 'Conjured Mana Cake'
+
     false
+  end
+
+  def conjured_mana_cake(item)
+    item.quality = item.quality - 2 if above_min_quality(item)
+    item.sell_in = item.sell_in - 1
+    item.quality = item.quality - 2 if above_min_quality(item) && item.sell_in.negative?
+    true
   end
 
   def aged_brie(item)
@@ -39,16 +58,6 @@ class GildedRose
     true
   end
 
-  def update_quality
-    @items.each do |item|
-      next if handle_special_items(item)
-
-      item.quality = item.quality - 1 if matches_item_quality_rules(item)
-      item.sell_in = item.sell_in - 1
-      item.quality = item.quality - 1 if above_min_quality(item) && item.sell_in.negative?
-    end
-  end
-
   private
 
   def below_max_quality(item)
@@ -57,10 +66,6 @@ class GildedRose
 
   def above_min_quality(item)
     item.quality > 0
-  end
-
-  def matches_item_quality_rules(item)
-    below_max_quality(item) && above_min_quality(item)
   end
 end
 

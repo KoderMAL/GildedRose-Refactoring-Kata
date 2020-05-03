@@ -66,11 +66,11 @@ describe GildedRose do
     end
   end
   describe 'new rule for Conjured Item to be implemented' do
-    it 'degrade in Quality twice as fast as normal items' do
-      items = [Item.new('Conjured Mana Cake', 50, 50), Item.new('foo', 50, 50)]
-      25.times { GildedRose.new(items).update_quality }
-      expect(items[1].quality).to eq 25
-      expect(items[0].quality).to eq 0
+    it 'degrade in Quality twice as fast as normal items', focus: true do
+      items = [Item.new('Conjured Mana Cake', 10, 40), Item.new('foo', 10, 40)]
+      10.times { GildedRose.new(items).update_quality }
+      expect(items[1].quality).to eq 30
+      expect(items[0].quality).to eq 20
     end
   end
 end
