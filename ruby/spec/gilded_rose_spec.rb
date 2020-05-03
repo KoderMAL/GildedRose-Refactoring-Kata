@@ -65,5 +65,13 @@ describe GildedRose do
       expect(item.quality).to eq(0) # too late!
     end
   end
+  describe 'new rule for Conjured Item to be implemented' do
+    it 'degrade in Quality twice as fast as normal items' do
+      items = [Item.new('Conjured Mana Cake', 50, 50), Item.new('foo', 50, 50)]
+      25.times { GildedRose.new(items).update_quality }
+      expect(items[1].quality).to eq 25
+      expect(items[0].quality).to eq 0
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength
